@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import DiceGrid from "./components/diceGrid";
+import DiceCountSelector from "./components/diceCountSelector";
 
 function App() {
+  const [numberOfDice, setNumberOfDice] = useState(null);
+  const [rolledSets, setRolledSets] = useState([]);
+  const [stagedDice, setStagedDice] = [];
+
+  if (stagedDice.count === numberOfDice) {
+    setRolledSets(rolledSets.push(stagedDice));
+    setStagedDice([]);
+  }
+
+  const handleDiceRoll = value => {
+    setStagedDice(stagedDice.concat([value]));
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Dice Tracker</h1>
       </header>
+      {numberOfDice === null ? (
+        <DiceCountSelector emitDiceCount={setNumberOfDice} />
+      ) : (
+        // RecordedRolls
+        // DiceStage
+        <DiceGrid emitDiceRoll={handleDiceRoll} />
+      )}
     </div>
   );
 }
