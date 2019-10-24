@@ -3,11 +3,14 @@ import logo from "./logo.svg";
 import "./App.css";
 import DiceGrid from "./components/diceGrid";
 import DiceCountSelector from "./components/diceCountSelector";
+import DiceRoll from "./components/diceRoll";
+import RecordedRolls from "./components/recordedRolls";
+import { Button } from "@material-ui/core";
 
 function App() {
   const [numberOfDice, setNumberOfDice] = useState(null);
   const [rolledSets, setRolledSets] = useState([]);
-  const [stagedDice, setStagedDice] = [];
+  const [stagedDice, setStagedDice] = useState([]);
 
   if (stagedDice.count === numberOfDice) {
     setRolledSets(rolledSets.push(stagedDice));
@@ -16,6 +19,10 @@ function App() {
 
   const handleDiceRoll = value => {
     setStagedDice(stagedDice.concat([value]));
+  };
+
+  const submit = () => {
+    console.log(rolledSets);
   };
 
   return (
@@ -27,9 +34,14 @@ function App() {
       {numberOfDice === null ? (
         <DiceCountSelector emitDiceCount={setNumberOfDice} />
       ) : (
-        // RecordedRolls
-        // DiceStage
-        <DiceGrid emitDiceRoll={handleDiceRoll} />
+        <>
+          <div>
+            <RecordedRolls rolls={rolledSets} />
+            <Button onClick={submit}>Submit</Button>
+          </div>
+          <DiceRoll maxDice={numberOfDice} rolledDice={stagedDice} />
+          <DiceGrid emitDiceRoll={handleDiceRoll} />
+        </>
       )}
     </div>
   );
