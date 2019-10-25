@@ -8,7 +8,10 @@ function DiceCountSelector({ emitDiceCount }) {
   return (
     <Grid container>
       <Grid item xs={4}>
-        <IconButton onClick={() => setCount(count > 0 ? count - 1 : count)}>
+        <IconButton
+          name="Add Die"
+          onClick={() => setCount(count > 0 ? count - 1 : count)}
+        >
           <RemoveCircle />
         </IconButton>
       </Grid>
@@ -16,12 +19,15 @@ function DiceCountSelector({ emitDiceCount }) {
         {count}
       </Grid>
       <Grid item xs={4}>
-        <IconButton onClick={() => setCount(count + 1)}>
+        <IconButton name="Remove Die" onClick={() => setCount(count + 1)}>
           <AddCircle />
         </IconButton>
       </Grid>
       <Grid item xs={12}>
-        <IconButton onClick={() => emitDiceCount(count)}>
+        <IconButton
+          name={`Confirm ${count} dice`}
+          onClick={() => emitDiceCount(count)}
+        >
           <Send />
         </IconButton>
       </Grid>

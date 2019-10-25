@@ -11,11 +11,11 @@ const dieValueMap = {
   6: Dice.Six
 };
 
-function Die({ value }) {
+function Die({ value, onClick }) {
   // This const is capitalised for a reason
   // See: https://reactjs.org/docs/jsx-in-depth.html#choosing-the-type-at-runtime
   const RenderedDie = dieValueMap[value];
-  return <RenderedDie />;
+  return <RenderedDie onClick={onClick} />;
 }
 
 export default Die;

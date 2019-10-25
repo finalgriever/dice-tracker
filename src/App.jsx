@@ -1,24 +1,27 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import DiceGrid from "./components/diceGrid";
 import DiceCountSelector from "./components/diceCountSelector";
 import DiceRoll from "./components/diceRoll";
 import RecordedRolls from "./components/recordedRolls";
-import { Button } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import { IconButton } from "@material-ui/core";
+import { Send } from "@material-ui/icons";
 
 function App() {
   const [numberOfDice, setNumberOfDice] = useState(null);
   const [rolledSets, setRolledSets] = useState([]);
   const [stagedDice, setStagedDice] = useState([]);
 
-  if (stagedDice.count === numberOfDice) {
-    setRolledSets(rolledSets.push(stagedDice));
-    setStagedDice([]);
-  }
-
   const handleDiceRoll = value => {
-    setStagedDice(stagedDice.concat([value]));
+    if (stagedDice.length + 1 === numberOfDice) {
+      const newStage = stagedDice.concat([value]);
+      const newRolledSets = rolledSets.concat([newStage]);
+      setRolledSets(newRolledSets);
+      setStagedDice([]);
+    } else {
+      setStagedDice(stagedDice.concat([value]));
+    }
   };
 
   const submit = () => {
@@ -27,20 +30,23 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>Dice Tracker</h1>
-      </header>
+      <h1>Dice Tracker</h1>
       {numberOfDice === null ? (
         <DiceCountSelector emitDiceCount={setNumberOfDice} />
       ) : (
         <>
-          <div>
-            <RecordedRolls rolls={rolledSets} />
-            <Button onClick={submit}>Submit</Button>
-          </div>
+          <Grid container>
+            <Grid item xs={10}>
+              <RecordedRolls rolls={rolledSets} />
+            </Grid>
+            <Grid item xs={2}>
+              <IconButton onClick={submit}>
+                <Send />
+              </IconButton>
+            </Grid>
+          </Grid>
           <DiceRoll maxDice={numberOfDice} rolledDice={stagedDice} />
-          <DiceGrid emitDiceRoll={handleDiceRoll} />
+          <DiceGrid emitDiceRoll={value => handleDiceRoll(value)} />
         </>
       )}
     </div>
