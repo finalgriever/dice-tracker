@@ -15,6 +15,8 @@ namespace DiceTracker
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,6 +27,13 @@ namespace DiceTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000");
+                });
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -41,7 +50,8 @@ namespace DiceTracker
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors(MyAllowSpecificOrigins);
+            // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

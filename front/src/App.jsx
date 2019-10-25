@@ -7,6 +7,7 @@ import RecordedRolls from "./components/recordedRolls";
 import Grid from "@material-ui/core/Grid";
 import { IconButton } from "@material-ui/core";
 import { Send } from "@material-ui/icons";
+import * as sessions from "./services/sessions";
 
 function App() {
   const [numberOfDice, setNumberOfDice] = useState(null);
@@ -24,8 +25,9 @@ function App() {
     }
   };
 
-  const submit = () => {
-    console.log(rolledSets);
+  const submit = async () => {
+    let response = await sessions.postSession(rolledSets);
+    console.log(response);
   };
 
   return (

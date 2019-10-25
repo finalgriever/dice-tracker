@@ -12552,9 +12552,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jamie.butler\\projects\\dice-tracker\\back\\back.csproj",
-      "projectName": "back",
-      "projectPath": "C:\\Users\\jamie.butler\\projects\\dice-tracker\\back\\back.csproj",
+      "projectUniqueName": "C:\\Users\\jamie.butler\\projects\\dice-tracker\\back\\DiceTracker.csproj",
+      "projectName": "DiceTracker",
+      "projectPath": "C:\\Users\\jamie.butler\\projects\\dice-tracker\\back\\DiceTracker.csproj",
       "packagesPath": "C:\\Users\\jamie.butler\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\jamie.butler\\projects\\dice-tracker\\back\\obj\\",
       "projectStyle": "PackageReference",
