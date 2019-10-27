@@ -10,18 +10,13 @@ admin.initializeApp({
 const database = admin.database();
 
 let validatePayload = payload => {
-  if (!typeof payload === "object") return false;
-  if (!"Rolls" in payload) return false;
-  if (payload.keys.length > 1) return false;
-  if (!Array.isArray(payload.Rolls)) return false;
-  if (payload.Rolls.length === 0) return true;
+  if (!Array.isArray(payload)) return false;
+  if (payload.length === 0) return true;
   let valid = true;
-  payload.Rolls.forEach(roll => {
-    if (typeof roll !== "object") valid = false;
-    if (!"Values" in roll) valid = false;
-    if (!Array.isArray(roll.Values)) valid = false;
-    if (roll.Values.length === 0) return;
-    roll.Values.forEach(value => {
+  payload.forEach(roll => {
+    if (!Array.isArray(roll)) valid = false;
+    if (roll.length === 0) return;
+    roll.forEach(value => {
       if (typeof value !== "number") valid = false;
     });
   });
@@ -29,20 +24,19 @@ let validatePayload = payload => {
 };
 
 router.post("/", function(request, response) {
-  const payload = request.body;
-  if (!validatePayload(payload)) {
+  if (!validatePayload(request.body)) {
     response.json({ error: "failed validation" });
     return;
   }
+  const payload = JSON.stringify(request.body);
   database
-    .ref("sessions")
-    .child(`${new Date.getTime()}`)
+    .ref(`sessions/${new Date().getTime()}`)
     .set(payload)
     .then(sessionReference => {
-      response.json({ ok: sessionReference });
+      response.json({ result: "Ok" });
     })
     .catch(error => {
-      response.json({ error });
+      response.json({ result: "Error" });
     });
 });
 

@@ -1,16 +1,8 @@
-const URL = "https://localhost:5001/api/sessions";
-
-function convertPayload(data) {
-  let payload = { Rolls: [] };
-  data.forEach(roll => {
-    payload.Rolls.push({ Values: roll });
-  });
-  return payload;
-}
+const URL = "http://localhost:3001/api/sessions";
 
 export async function postSession(data) {
   try {
-    const payload = JSON.stringify(convertPayload(data));
+    const payload = JSON.stringify(data);
     const response = await fetch(URL, {
       method: "POST",
       headers: {
